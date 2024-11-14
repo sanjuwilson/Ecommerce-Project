@@ -1,0 +1,87 @@
+services:
+  customer-postgres:
+    container_name: CUSTOMER_CONTAINER
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: customer
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - postgres-customer:/var/lib/postgres/data
+    networks:
+      e-commerce-net:
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  order-postgres:
+    container_name: ORDER_CONTAINER
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: order
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - postgres-order:/var/lib/postgres/data
+    ports:
+      - "5678:5432"
+    networks:
+      e-commerce-net:
+  product-postgres:
+    container_name: PRODUCT_CONTAINER
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: product
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - postgres-product:/var/lib/postgres/data
+    networks:
+      e-commerce-net:
+    ports:
+      - "1234:5432"
+    restart: unless-stopped
+
+  mail-dev:
+    container_name: ms_mail_dev
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+    networks:
+      - e-commerce-net
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: ms_kafka
+    ports:
+      - 9092:9092
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+    networks:
+      - e-commerce-net
+networks:
+  e-commerce-net:
+    driver: bridge
+volumes:
+  postgres-customer:
+  postgres-product:
+  postgres-order:
