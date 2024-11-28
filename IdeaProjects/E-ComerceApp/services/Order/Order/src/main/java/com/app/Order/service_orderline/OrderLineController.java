@@ -20,7 +20,7 @@ public class OrderLineController {
     public ResponseEntity<List<OrderLineResponse>> findAll() {
         return ResponseEntity.ok(orderLineService.getAll());
     }
-    @GetMapping("{/id}")
+    @GetMapping("{id}")
     public ResponseEntity<OrderLineResponse> findById(@PathVariable("id") int Id) {
         return ResponseEntity.ok(orderLineService.findById(Id));
     }
