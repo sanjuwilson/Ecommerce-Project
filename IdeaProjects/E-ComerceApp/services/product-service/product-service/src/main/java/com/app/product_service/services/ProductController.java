@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,9 +22,10 @@ public class ProductController {
     public ResponseEntity<List<ProductResponse>> getAll(){
         return ResponseEntity.ok(service.getAllProducts());
     }
-    @GetMapping("/order")
-    public ResponseEntity<List<ProductResponse>> requestOrder(List<PurchaseRequest> request){
-        return ResponseEntity.ok(service.requestPurchase(request));
+    @PostMapping("/order-request")
+    public List<ProductResponse> requestOrder(@RequestBody List<PurchaseRequest> request){
+        System.out.println("Received request: " + request);
+        return service.requestPurchase(request);
     }
     @GetMapping("/byId/{id}")
     public ResponseEntity<ProductResponse> getById(@PathVariable("id") Integer Id){

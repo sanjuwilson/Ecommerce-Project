@@ -10,7 +10,7 @@ CREATE TABLE if not exists product (
     available_quantity DOUBLE PRECISION NOT NULL,
     price numeric(38, 2) NOT NULL,
     category_id INTEGER
-           CONSTRAINT fk_category references category
+           CONSTRAINT fk1_category references category
 
 );
 create sequence if not exists category_seq increment by 50;

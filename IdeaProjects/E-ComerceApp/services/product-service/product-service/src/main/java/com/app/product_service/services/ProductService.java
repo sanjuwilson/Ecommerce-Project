@@ -26,14 +26,14 @@ public class ProductService {
     }
    @Transactional
     public List<ProductResponse> requestPurchase(List<PurchaseRequest> request){
-        List<Integer>ids=request.stream().map(PurchaseRequest::Id).toList();
+        List<Integer>ids=request.stream().map(PurchaseRequest::id).toList();
         List<Product> products=repo.findAllByIdInOrderById(ids);
         if(products.size() !=ids.size()){
             throw new ProductNotFoundException("One or More Products you requested is not on our database");
         }
         else {
             List<PurchaseRequest> requestSorted = request.stream().sorted
-                    (Comparator.comparing(PurchaseRequest::Id)).toList();
+                    (Comparator.comparing(PurchaseRequest::id)).toList();
             List<ProductResponse> response = new ArrayList<>();
             for (int i = 0; i < products.size(); i++) {
                 Product pro = products.get(i);

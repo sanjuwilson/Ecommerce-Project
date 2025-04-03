@@ -1,5 +1,8 @@
 package com.app.customer_service.customer;
 
+import com.app.customer_service.address.AddressMapper;
+import com.app.customer_service.address.AddressRequest;
+import com.app.customer_service.address.AddressService;
 import com.app.customer_service.customer.*;
 
 import com.app.customer_service.exceptions.CustomerNotFoundException;
@@ -11,14 +14,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
     private final CustomerRepo repo;
     private final CustomerMapper mapper;
+    private final AddressService addressService;
 
-    public Customer save(CustomerDto customerResponse) {
-        return repo.save(mapper.toCustomer(customerResponse));
+    public Integer save(CustomerDto customerRequest) {
+        Integer id=repo.save(mapper.toCustomer(customerRequest)).getId();
+        for(AddressRequest x: customerRequest.addresses()){
+            addressService.save(new AddressRequest(x.street()
+            ,x.houseNumber(),x.zipCode(),id));
+        }
+        return id;
+
+
     }
     public void updateCustomer(@Valid @RequestBody CustomerDto customerResponse) {
         Customer customer=repo.findById(customerResponse.id()).orElseThrow(()->
@@ -27,19 +39,17 @@ public class CustomerService {
         mergeCustomer(customerResponse,customer);
     }
 
-    private void mergeCustomer(CustomerDto customerResponse, Customer customer) {
-        if(StringUtils.isNotBlank(customerResponse.firstname())){
-            customer.setFirstname(customerResponse.firstname());
+    private void mergeCustomer(CustomerDto customerRequest, Customer customer) {
+        if(StringUtils.isNotBlank(customerRequest.firstname())){
+            customer.setFirstname(customerRequest.firstname());
         }
-        if(StringUtils.isNotBlank(customerResponse.lastname())){
-            customer.setLastname(customerResponse.lastname());
+        if(StringUtils.isNotBlank(customerRequest.lastname())){
+            customer.setLastname(customerRequest.lastname());
         }
-        if(StringUtils.isNotBlank(customerResponse.email())){
-            customer.setEmail(customerResponse.email());
+        if(StringUtils.isNotBlank(customerRequest.email())){
+            customer.setEmail(customerRequest.email());
         }
-        if(customerResponse.address()!=null){
-            customer.setAddress(mapper.toAddress(customerResponse.address()));
-        }
+        repo.save(customer);
     }
     public List<CustomerResponse> getAllCustomer() {
         return repo.findAll().stream().map(mapper:: toCustomerResponse).collect(Collectors.toList());

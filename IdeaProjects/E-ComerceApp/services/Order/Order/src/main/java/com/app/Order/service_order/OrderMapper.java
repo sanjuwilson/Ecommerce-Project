@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderMapper {
     public Order toOrder(OrderRequest orderRequest) {
-        return Order.builder().id(orderRequest.orderId())
+        return Order.builder()
                 .customerId(orderRequest.customerId())
                 .reference(orderRequest.reference())
                 .price(orderRequest.price())

@@ -1,4 +1,4 @@
-package com.app.customer_service.customer;
+package com.app.customer_service.address;
 
 public record AddressResponse(
         String street,

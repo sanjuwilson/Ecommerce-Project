@@ -13,7 +13,7 @@ public class CustomerController {
     private final CustomerService service;
 
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody @Valid CustomerDto customer){
+    public ResponseEntity<Integer> createCustomer(@RequestBody @Valid CustomerDto customer){
         return ResponseEntity.ok(service.save(customer));
     }
     @PutMapping

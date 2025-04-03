@@ -3,6 +3,8 @@ package com.app.Order.service_order;
 import com.app.Order.exceptions.BuissnessException;
 import com.app.Order.kafka.OrderConfirmation;
 import com.app.Order.kafka.OrderProducer;
+import com.app.Order.payment.PaymentClient;
+import com.app.Order.payment.PaymentRequest;
 import com.app.Order.service_customer.CustomerClient;
 import com.app.Order.service_customer.CustomerResponse;
 import com.app.Order.service_orderline.OrderLineRequest;
@@ -26,17 +28,12 @@ public class OrderService {
     private final OrderMapper mapper;
     private final OrderLineService orderLineService;
     private final OrderProducer orderProducer;
+    private final PaymentClient paymentClient;
 
     public Integer placeOrder(OrderRequest request) {
-        ProductResponse productResponse;
         CustomerResponse customerResponse = this.client.findById(request.customerId())
                 .orElseThrow(() -> new BuissnessException("No Customer Found"));
-        List<PurchaseRequest>resp=request.purchase();
-        List<ProductResponse>productResponseList= new ArrayList<>();
-        for(PurchaseRequest p:resp){
-            productResponse=this.proClient.getById(p.id()).orElseThrow(() -> new BuissnessException("No Product Found"));
-            productResponseList.add(productResponse);
-        }
+        var purchasedProducts=proClient.requestOrder(request.purchase());
         Order order=repo.save(mapper.toOrder(request));
         for(PurchaseRequest purchaseRequest:request.purchase()){
             orderLineService.save(new OrderLineRequest(
@@ -46,17 +43,25 @@ public class OrderService {
                     purchaseRequest.quantity()
             ));
         }
+        paymentClient.requestPayment(new PaymentRequest(
+                request.price(),
+                request.paymentMethod(),
+                order.getId(),
+                order.getReference(),
+                customerResponse
+        ));
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(
                         request.reference(),
                         request.price(),
                         request.paymentMethod(),
                         customerResponse,
-                        productResponseList
+                        purchasedProducts
                 )
         );
         return order.getId();
     }
+
 
     public List<OrderResponse> findAll() {
         return repo.findAll().stream().map(mapper ::toOrderResponse).collect(Collectors.toList());
@@ -64,5 +69,8 @@ public class OrderService {
 
     public OrderResponse getById(int orderId) {
         return repo.findById(orderId).map(mapper::toOrderResponse).orElseThrow(()->new EntityNotFoundException("No Order Found"));
+    }
+    public void deleteById(int orderId) {
+        repo.deleteById(orderId);
     }
 }

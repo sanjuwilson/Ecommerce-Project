@@ -1,40 +1,36 @@
 package com.app.customer_service.customer;
+import com.app.customer_service.address.Address;
+import com.app.customer_service.address.AddressMapper;
+import com.app.customer_service.address.AddressResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
+@RequiredArgsConstructor
 public class CustomerMapper {
-    public Customer toCustomer(CustomerDto customerResponse) {
-        if (customerResponse == null){
+    private final AddressMapper addressMapper;
+    public Customer toCustomer(CustomerDto customerRequest) {
+        if (customerRequest == null){
             return null;
         }
         Customer customer = new Customer();
-        customer.setId(customerResponse.id());
-        customer.setEmail(customerResponse.email());
-        customer.setAddress(toAddress(customerResponse.address()));
-        customer.setFirstname(customerResponse.firstname());
-        customer.setLastname(customerResponse.lastname());
+        customer.setId(customerRequest.id());
+        customer.setEmail(customerRequest.email());
+        customer.setFirstname(customerRequest.firstname());
+        customer.setLastname(customerRequest.lastname());
         return customer;
     }
 
-    public Address toAddress(AddressDto addressDto) {
-        if (addressDto == null){
-            return null;
-        }
-        Address address = new Address();
-        address.setStreet(addressDto.street());
-        address.setHouseNumber(addressDto.houseNumber());
-        address.setZipCode(addressDto.zipCode());
-        return address;
-    }
 
     public CustomerResponse toCustomerResponse (Customer customer){
-        return new CustomerResponse(customer.getId(),customer.getFirstname(),customer.getLastname(),customer.getEmail(),toAddressResponse(customer.getAddress()));
+        return new CustomerResponse(customer.getId(),customer.getFirstname(),customer.getLastname(),customer.getEmail(),customer.getAddresses().stream().map(
+                addressMapper::toAddressResponse
+        ).collect(Collectors.toList()));
     }
 
-    private AddressResponse toAddressResponse(Address address) {
-        if (address == null){
-            return null;
-        }
-        return new AddressResponse(address.getStreet(),address.getHouseNumber(),address.getZipCode());
-    }
+
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/Order/Order/pom.xml" />
+        <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/config-server/config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/product-service/product-service/pom.xml" />
+        <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/customer-service/customer-service/pom.xml" />
+        <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/discovery-server/discovery-server/pom.xml" />
+        <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/payment/pom.xml" />
+        <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/Gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/Cart/pom.xml" />
+        <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/rewards-service/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="openjdk-23" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

@@ -1,11 +1,11 @@
 package com.app.customer_service.customer;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.app.customer_service.address.Address;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -22,7 +22,7 @@ public class Customer {
     private String firstname;
     private String lastname;
     private String email;
-    @Embedded
-    private Address address;
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    private List<Address> addresses;
 
 }

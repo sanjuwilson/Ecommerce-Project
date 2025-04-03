@@ -15,8 +15,7 @@ public class OrderController {
 
     @PostMapping ("/place-order")
     public ResponseEntity<Integer> placeOrder(@RequestBody @Valid OrderRequest request) {
-        service.placeOrder(request);
-        return ResponseEntity.ok(request.orderId());
+        return ResponseEntity.ok(service.placeOrder(request));
     }
     @GetMapping
     public ResponseEntity<List<OrderResponse>> getOrders() {
@@ -25,6 +24,11 @@ public class OrderController {
     @GetMapping("/{order-id}")
     public ResponseEntity<OrderResponse> findById(@PathVariable("order-id") int orderId) {
         return ResponseEntity.ok(service.getById(orderId));
+    }
+    @DeleteMapping("/{order-id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable("order-id") int orderId) {
+      service.deleteById(orderId);
+      return ResponseEntity.noContent().build();
     }
 
 }

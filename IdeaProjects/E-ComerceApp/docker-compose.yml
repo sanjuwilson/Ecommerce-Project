@@ -15,6 +15,22 @@ services:
       - "5432:5432"
     restart: unless-stopped
 
+  cart-postgres:
+    container_name: CART_CONTAINER
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: cart
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - postgres-customer:/var/lib/postgres/data
+    networks:
+      e-commerce-net:
+    ports:
+      - "5690:5432"
+    restart: unless-stopped
+
   order-postgres:
     container_name: ORDER_CONTAINER
     image: postgres
@@ -44,6 +60,21 @@ services:
     ports:
       - "1234:5432"
     restart: unless-stopped
+
+  payment-postgres:
+    container_name: PAYMENT_CONTAINER
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: payment
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - postgres-payment:/var/lib/postgres/data
+    ports:
+      - "7982:5432"
+    networks:
+      e-commerce-net:
 
   mail-dev:
     container_name: ms_mail_dev
@@ -85,3 +116,5 @@ volumes:
   postgres-customer:
   postgres-product:
   postgres-order:
+  postgres-payment:
+  postgres-cart:
