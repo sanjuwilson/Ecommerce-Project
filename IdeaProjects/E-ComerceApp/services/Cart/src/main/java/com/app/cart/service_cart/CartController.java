@@ -8,6 +8,9 @@ import com.app.cart.service_details.ProductDetailsRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -19,23 +22,30 @@ import java.util.List;
 public class CartController {
     private final CartService cartService;
     @PostMapping
-    public ResponseEntity<Integer> createCart(@RequestBody @Valid CartRequest request) throws CartAlreadyActiveException {
-        Integer cartId = cartService.saveCart(request);
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<Integer> createCart(@RequestBody @Valid CartRequest request,@AuthenticationPrincipal Jwt jwt) throws CartAlreadyActiveException {
+        String customerId = jwt.getClaimAsString("customer_id");
+        Integer cartId = cartService.saveCart(request,Integer.parseInt(customerId));
         URI location = URI.create(String.format("/api/v1/cart/%d", cartId));
         return ResponseEntity.created(location).body(cartId);
     }
-    @PostMapping("/{cart-id}")
-    public ResponseEntity<Integer> addItemToCart(@RequestBody @Valid List<ProductDetailsRequest> request, @PathVariable("cart-id") Integer cartId) throws CartNotActiveException {
-        return ResponseEntity.ok(cartService.addToCart(request,cartId));
+    @PostMapping("/add")
+    @PreAuthorize("hasRole('user')")
+    public ResponseEntity<Integer> addItemToCart(@RequestBody @Valid List<ProductDetailsRequest> request, @AuthenticationPrincipal Jwt jwt) throws CartNotActiveException {
+        String customerId = jwt.getClaimAsString("customer_id");
+        return ResponseEntity.ok(cartService.addToCart(request,(Integer.parseInt(customerId))));
     }
-    @GetMapping("check-out/{cart-id}")
-    public ResponseEntity<Void> checkoutCart(@PathVariable("cart-id")Integer cartId,@RequestBody CheckOutRequest checkOutRequest) throws CartAlreadyCheckedOutException {
-        cartService.checkOutCart(cartId,checkOutRequest);
+    @GetMapping("check-out")
+    @PreAuthorize("hasRole('user') or hasRole('admin')")
+    public ResponseEntity<Void> checkoutCart(@AuthenticationPrincipal Jwt jwt) throws CartAlreadyCheckedOutException {
+        Integer customerId=Integer.parseInt(jwt.getClaimAsString("customer_id"));
+        cartService.checkOutCart(customerId);
         return ResponseEntity.ok().build();
     }
-    @DeleteMapping("/{cart-id}")
-    public ResponseEntity<Void> deleteCart(@RequestBody List<ProductDetailsRequest> requests,@PathVariable("cart-id") Integer cartId) {
-        cartService.deleteProductsFromCart(requests,cartId);
+    @DeleteMapping("/delete")
+    @PreAuthorize("hasRole('user') or hasRole('admin')")
+    public ResponseEntity<Void> deleteCart(@RequestBody List<ProductDetailsRequest> requests, @AuthenticationPrincipal Jwt jwt) throws CartNotActiveException {
+        cartService.deleteProductsFromCart(requests,Integer.parseInt(jwt.getClaimAsString(("customer_id"))));
         return ResponseEntity.accepted().build();
 
     }

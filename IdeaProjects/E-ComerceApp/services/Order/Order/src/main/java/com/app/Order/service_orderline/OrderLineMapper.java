@@ -13,6 +13,9 @@ public class OrderLineMapper {
                         build())
                 .Id(request.id())
                 .quantity(request.quantity())
+                .category(request.category())
+                .name(request.name())
+                .price(request.price())
                 .build();
     }
     public OrderLineResponse toOrderLineResponse(OrderLine line) {

@@ -1,6 +1,7 @@
 package com.app.cart.service_cart;
 
 import com.app.cart.service_details.ProductDetails;
+import com.ecom.CartStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,7 +23,8 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(nullable = false)
-    private int userId;
+    private Integer userId;
+    private String cartReference;
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;

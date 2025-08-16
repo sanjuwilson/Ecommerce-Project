@@ -13,7 +13,16 @@
         <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/Gateway/pom.xml" />
         <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/Cart/pom.xml" />
         <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/rewards-service/pom.xml" />
+        <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/Notification/pom.xml" />
+        <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/shared-dto/pom.xml" />
+        <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/com.ecom.shareddtos/pom.xml" />
+        <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/SharedDtos/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/shared-dto/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="openjdk-23" project-jdk-type="JavaSDK">

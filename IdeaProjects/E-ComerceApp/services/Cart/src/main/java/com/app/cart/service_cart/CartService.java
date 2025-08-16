@@ -3,6 +3,7 @@ package com.app.cart.service_cart;
 import com.app.cart.exceptions.CartAlreadyActiveException;
 import com.app.cart.exceptions.CartAlreadyCheckedOutException;
 import com.app.cart.exceptions.CartNotActiveException;
+import com.app.cart.security.TokenGenerator;
 import com.app.cart.service_customer.CustomerClient;
 import com.app.cart.service_details.ProductDetails;
 import com.app.cart.service_details.ProductDetailsRequest;
@@ -10,11 +11,14 @@ import com.app.cart.service_order.OrderClient;
 import com.app.cart.service_order.OrderRequest;
 import com.app.cart.service_product.ProductClient;
 import com.app.cart.service_product.ProductResponse;
+import com.ecom.CartStatus;
+import com.ecom.CartUpdater;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -29,13 +33,15 @@ public class CartService {
     private final ProductClient productClient;
     private final OrderClient orderClient;
     private final CustomerClient customerClient;
+    private final TokenGenerator tokenGenerator;
 
 
-    public Integer saveCart(CartRequest cartRequest) throws CartAlreadyActiveException {
-        if(checkForCartEligibility(cartRequest)) {
+    public Integer saveCart(CartRequest cartRequest,Integer userId) throws CartAlreadyActiveException {
+        if(checkForCartEligibility(cartRequest,userId)) {
             Cart cart = Cart.builder()
-                    .userId(cartRequest.userId())
-                    .status(cartRequest.status())
+                    .userId(userId)
+                    .status(CartStatus.ACTIVE)
+                    .cartReference(CartReferenceGenerator.generateCartReference())
                     .build();
 
             List<ProductDetails> details = cartRequest.detailsRequests().stream()
@@ -54,8 +60,8 @@ public class CartService {
         }
     }
     @Transactional
-    public Integer addToCart(List<ProductDetailsRequest> productDetailsRequest,Integer cartId) throws CartNotActiveException {
-       Cart existingCart=cartRepository.findById(cartId).orElseThrow(()->new EntityNotFoundException("Cart not found"));
+    public Integer addToCart(List<ProductDetailsRequest> productDetailsRequest,Integer customerId) throws CartNotActiveException {
+       Cart existingCart=cartRepository.findByUserId(customerId).orElseThrow(()->new EntityNotFoundException("Customer not found"));
        List<ProductDetails> existingDetails=existingCart.getDetails();
        if(existingCart.getStatus().equals(CartStatus.ACTIVE)){
            for(ProductDetailsRequest productDetailRequest:productDetailsRequest){
@@ -91,31 +97,34 @@ public class CartService {
        }
     }
     private boolean checkForAvailability(ProductDetails productDetails) {
-        ProductResponse response=productClient.getById(productDetails.getProductId());
+        String token = "Bearer " + tokenGenerator.generateToken();
+        ProductResponse response=productClient.getById(productDetails.getProductId(),token);
         return response.availableQuantity()>=productDetails.getQuantity();
     }
     @Transactional
-    public void checkOutCart(Integer cartId,CheckOutRequest checkoutRequest) throws CartAlreadyCheckedOutException {
-        Cart cart=cartRepository.findById(cartId).orElseThrow(()->new EntityNotFoundException("Cart not found"));
+    public void checkOutCart(Integer customerId) throws CartAlreadyCheckedOutException {
+        Cart cart=cartRepository.findByUserId(customerId).orElseThrow(()->new EntityNotFoundException("Customer not found"));
+        String token = "Bearer " + tokenGenerator.generateToken();
         if(cart.getStatus().equals(CartStatus.ACTIVE)){
-            orderClient.placeOrder(new OrderRequest(checkoutRequest.reference(),checkoutRequest.price()
-                    ,checkoutRequest.paymentMethod(),cart.getUserId(),
-                    cart.details.stream().map(cartMapper::toPurchaseRequest).collect(Collectors.toList())));
-            cart.setStatus(CartStatus.CHECKED_OUT);
-            cartRepository.save(cart);
+            orderClient.placeOrder(new OrderRequest(
+                    cart.getCartReference(),
+                    cart.getUserId(),
+                    cart.details.stream().map(cartMapper::toPurchaseRequest).collect(Collectors.toList())),token);
+
         }
         else{
             throw new CartAlreadyCheckedOutException("No Active Carts");
         }
 
     }
-    private boolean checkForCartEligibility(CartRequest cartRequest) throws CartAlreadyActiveException {
-        boolean isCustomer = customerClient.getCustomer(cartRequest.userId());
+    private boolean checkForCartEligibility(CartRequest cartRequest,Integer userId) throws CartAlreadyActiveException {
+        String token = "Bearer " + tokenGenerator.generateToken();
+        boolean isCustomer = customerClient.getCustomer(userId,token);
         if (!isCustomer) {
             throw new EntityNotFoundException("Customer not found");
         }
         else{
-            int activeCount = cartRepository.countByUserIdAndStatus(cartRequest.userId(), CartStatus.ACTIVE);
+            int activeCount = cartRepository.countByUserIdAndStatus(userId, CartStatus.ACTIVE);
             if(activeCount>0){
                 throw new CartAlreadyActiveException("Cart Already Active");
             }
@@ -124,9 +133,9 @@ public class CartService {
 
     }
 
-    public void deleteProductsFromCart(List<ProductDetailsRequest> deleteRequest, Integer cartId) {
+    public void deleteProductsFromCart(List<ProductDetailsRequest> deleteRequest, Integer customerId) throws CartNotActiveException {
         boolean found=false;
-        Cart cart=cartRepository.findById(cartId).orElseThrow(()->new EntityNotFoundException("Cart not found"));
+        Cart cart=cartRepository.findByUserId(customerId).orElseThrow(()->new CartNotActiveException("cart isn't active"));
         List<ProductDetails> existingProducts=cart.getDetails();
         Iterator<ProductDetails> iterator=existingProducts.iterator();
         Map<Integer, Double> productMapper = deleteRequest.stream()
@@ -157,6 +166,19 @@ public class CartService {
             cart.setStatus(CartStatus.DELETED);
         }
         cartRepository.save(cart);
+
+    }
+    private Cart findCartByReference(String reference) {
+        return cartRepository.findByCartReference(reference);
+
+    }
+
+    public void updateCart(CartUpdater cartUpdater) {
+        Cart cart=findCartByReference(cartUpdater.cartReference());
+        cart.setStatus(cartUpdater.cartStatus());
+        cart.setUpdatedAt(LocalDateTime.now());
+        cartRepository.save(cart);
+
 
     }
 }

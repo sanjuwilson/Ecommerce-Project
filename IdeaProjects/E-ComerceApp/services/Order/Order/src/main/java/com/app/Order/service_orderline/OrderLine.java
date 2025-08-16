@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Entity
 @Builder
 @AllArgsConstructor
@@ -24,4 +26,7 @@ public class OrderLine {
     private Order order;
     private Integer productId;
     private double quantity;
+    private String category;
+    private BigDecimal price;
+    private String name;
 }

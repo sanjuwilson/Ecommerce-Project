@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record OrderRequest(
-        String reference,
-        BigDecimal price,
-        PaymentMethod paymentMethod,
         Integer customerId,
+        String cartReference,
         List<PurchaseRequest> purchase
 ) {
 }

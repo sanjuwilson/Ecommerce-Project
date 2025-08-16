@@ -13,9 +13,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CartMapper {
     private final ProductDetailsMapper productDetailsMapper;
-    public Cart toCart(CartRequest cartRequest) {
-        return Cart.builder().userId(cartRequest.userId()).status(cartRequest.status()).build();
-    }
     public CartResponse toCartResponse(Cart cart) {
         return new CartResponse(cart.getUserId(), cart.getStatus(),cart.getDetails().stream().map(productDetailsMapper::toProductDetailsResponse).collect(Collectors.toList()));
     }

@@ -1,4 +1,41 @@
 services:
+  keycloak:
+    container_name: KEYCLOAK_CONTAINER
+    image: quay.io/keycloak/keycloak:26.2.5
+    command: start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: pass
+    volumes:
+      - ./my-keycloak-theme:/opt/keycloak/themes
+      - ./realm-config:/opt/keycloak/data/import
+    ports:
+      - "8080:8080"
+    depends_on:
+      - keycloak-db
+    networks:
+      - e-commerce-net
+    restart: unless-stopped
+
+  keycloak-db:
+    container_name: KEYCLOAK_DB_CONTAINER
+    image: postgres
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - keycloak-db-volume:/var/lib/postgresql/data
+    networks:
+      - e-commerce-net
+    ports:
+      - "5433:5432"  # Optional external mapping
+
+
   customer-postgres:
     container_name: CUSTOMER_CONTAINER
     image: postgres
@@ -13,6 +50,21 @@ services:
       e-commerce-net:
     ports:
       - "5432:5432"
+    restart: unless-stopped
+  notification-postgres:
+    container_name: NOTIFICATION_CONTAINER
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: notification
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - postgres-customer:/var/lib/postgres/data
+    networks:
+      e-commerce-net:
+    ports:
+      - "7865:5432"
     restart: unless-stopped
 
   cart-postgres:
@@ -76,6 +128,21 @@ services:
     networks:
       e-commerce-net:
 
+  reward-postgres:
+    container_name: REWARD_CONTAINER
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: reward
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - postgres-reward:/var/lib/postgres/data
+    ports:
+      - "7846:5432"
+    networks:
+      e-commerce-net:
+
   mail-dev:
     container_name: ms_mail_dev
     image: maildev/maildev
@@ -95,7 +162,7 @@ services:
       - e-commerce-net
   kafka:
     image: confluentinc/cp-kafka:latest
-    container_name: ms_kafka
+    container_name: s_kafka
     ports:
       - 9092:9092
     depends_on:
@@ -118,3 +185,5 @@ volumes:
   postgres-order:
   postgres-payment:
   postgres-cart:
+  postgres-reward:
+  keycloak-db-volume:

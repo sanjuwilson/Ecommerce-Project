@@ -17,12 +17,12 @@ public class CustomerMapper {
         if (customerRequest == null){
             return null;
         }
-        Customer customer = new Customer();
-        customer.setId(customerRequest.id());
-        customer.setEmail(customerRequest.email());
-        customer.setFirstname(customerRequest.firstname());
-        customer.setLastname(customerRequest.lastname());
-        return customer;
+        return Customer.builder()
+                .firstname(customerRequest.firstname())
+                .lastname(customerRequest.lastname())
+                .email(customerRequest.email())
+                .addresses(null)
+                .build();
     }
 
 

@@ -1,0 +1,39 @@
+spring:
+  mail:
+    host: localhost
+    port: 1025
+    username: sanju
+    password: sanju
+    properties:
+      mail:
+        smtp: "*"
+      auth: true
+      starttls:
+        enabled: true
+      connectiontimeout: 5000
+      timeout: 3000
+      writetimeout: 5000
+  application:
+    name: notification
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: myGroup-NEW
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer:  org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:7865/notification
+    username: postgres
+    password: pass
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+server:
+  port: 9118
+
+

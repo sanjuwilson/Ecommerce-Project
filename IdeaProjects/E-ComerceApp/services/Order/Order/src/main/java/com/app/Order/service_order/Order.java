@@ -1,6 +1,7 @@
 package com.app.Order.service_order;
 
 import com.app.Order.service_orderline.OrderLine;
+import com.ecom.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,13 +23,15 @@ import java.util.List;
 @Table(name="order_table")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(unique=true)
     private String reference;
     @Column(nullable = false)
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod;
+    private OrderStatus orderStatus;
+    private String cartReference;
     private Integer customerId;
     @OneToMany(mappedBy="order",cascade=CascadeType.ALL)
     private List<OrderLine> orderLines;

@@ -4,9 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record OrderRequest(
-        String reference,
-        BigDecimal price,
-        PaymentMethod paymentMethod,
+        String cartReference,
         Integer customerId,
         List<PurchaseRequest> purchase
 ) {

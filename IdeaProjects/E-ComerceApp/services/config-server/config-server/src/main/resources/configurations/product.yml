@@ -1,4 +1,9 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/MyEcom
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:1234/product
@@ -20,6 +25,11 @@ spring:
     validate-on-migrate: true
     out-of-order: false
     clean-on-validation-error: false
+jwt:
+  auth:
+    convertor:
+      resource-id: service_product
+      principle-attribute: preferred_username
 
 server:
   port: 9999
