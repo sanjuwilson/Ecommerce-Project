@@ -1,0 +1,41 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/MyEcom
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      #value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.trusted.packages: '*'
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:7846/reward
+    username: postgres
+    password: pass
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+server:
+  port: 5981
+application:
+  config:
+    order-url: http://localhost:9090/api/v1/orders
+keycloak:
+  realm: MyEcom
+  admin-client-id: service_transaction
+  admin-client-secret: rCbAuu111pKbnRRYX61bgza3OEwVudbP
+jwt:
+  auth:
+    convertor:
+      resource-id: service_transaction
+      principle-attribute: preferred_username
+
+
+
