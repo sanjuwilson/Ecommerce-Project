@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/Ecommerce-Project.iml" filepath="$PROJECT_DIR$/.idea/Ecommerce-Project.iml" />
       <module fileurl="file://$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/Notification/Notification.iml" filepath="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/Notification/Notification.iml" />
       <module fileurl="file://$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/customer-service/customer-service/customer-service.iml" filepath="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/customer-service/customer-service/customer-service.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/E-Comerce-App.iml" filepath="$PROJECT_DIR$/E-Comerce-App.iml" />
+>>>>>>> version1
     </modules>
   </component>
 </project>

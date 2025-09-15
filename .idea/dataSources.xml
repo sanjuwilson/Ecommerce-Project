@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+<<<<<<< HEAD
     <data-source source="LOCAL" name="customer@localhost" uuid="7175d121-ad8c-46c6-803a-ea72f4339515">
+=======
+    <data-source source="LOCAL" name="customer@localhost" uuid="bb288e80-8f7d-4817-88f3-0200e88f6eff">
+>>>>>>> version1
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
@@ -13,7 +17,11 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+<<<<<<< HEAD
     <data-source source="LOCAL" name="order@localhost" uuid="cf3436f3-e44d-4b74-ad19-9327a58ebdfc">
+=======
+    <data-source source="LOCAL" name="order@localhost" uuid="bd109459-42b0-4d30-a2e1-8e670a16f128">
+>>>>>>> version1
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
@@ -25,7 +33,11 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+<<<<<<< HEAD
     <data-source source="LOCAL" name="product@localhost" uuid="5acd44be-1f76-4f0d-b9d3-8100f7d6e917">
+=======
+    <data-source source="LOCAL" name="product@localhost" uuid="4ea90d9c-17f9-4f05-9c56-09c1543f60f6">
+>>>>>>> version1
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
@@ -37,6 +49,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+<<<<<<< HEAD
     <data-source source="LOCAL" name="payment@localhost" uuid="7e4b94cd-7fac-4ae6-b481-7989d77d04d8">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
@@ -50,6 +63,9 @@
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
     <data-source source="LOCAL" name="cart@localhost" uuid="6d63f325-486c-4b50-9324-2af42a8dcb1f">
+=======
+    <data-source source="LOCAL" name="cart@localhost" uuid="694217b8-71b2-41fa-ad71-182cc4a13bb6">
+>>>>>>> version1
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
@@ -61,7 +77,11 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+<<<<<<< HEAD
     <data-source source="LOCAL" name="reward@localhost" uuid="d2be46bc-ea59-4296-b950-9178a2767803">
+=======
+    <data-source source="LOCAL" name="reward@localhost" uuid="db34e0d8-62da-4e6e-824f-9c40a598d261">
+>>>>>>> version1
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
@@ -73,6 +93,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+<<<<<<< HEAD
     <data-source source="LOCAL" name="notification@localhost" uuid="74f8680a-da8a-4cd4-8c4a-b4899f2c1e0d">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
@@ -85,5 +106,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+=======
+>>>>>>> version1
   </component>
 </project>

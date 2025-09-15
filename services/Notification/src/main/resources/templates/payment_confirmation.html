@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Confirmation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            max-width: 600px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2a7ae2;
+        }
+        .section {
+            margin-top: 20px;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #2a7ae2;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Payment Confirmation</h2>
+    <p>Hello <strong th:text="${customerName}">Customer</strong>,</p>
+    <p>Thank you for your payment. Here are your payment details:</p>
+
+    <div class="section">
+        <p><span class="highlight">Order Reference:</span> <span th:text="${orderReference}">#ORDER123</span></p>
+        <p><span class="highlight">Total Paid:</span> ₹<span th:text="${amount}">0.00</span></p>
+    </div>
+
+    <div class="section">
+        <h3>Payment Breakdown:</h3>
+        <ul>
+            <li th:each="entry : ${transactionMethodsAndAmount}">
+                <span th:text="${entry.key}">Method</span>: ₹<span th:text="${entry.value}">0.00</span>
+            </li>
+        </ul>
+    </div>
+
+    <p>If you have any questions, feel free to contact our support team.</p>
+</div>
+</body>
+</html>

@@ -2,9 +2,13 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+<<<<<<< HEAD
       <profile default="true" name="Default" enabled="true">
         <outputRelativeToContentRoot value="true" />
       </profile>
+=======
+      <profile default="true" name="Default" enabled="true" />
+>>>>>>> version1
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -13,7 +17,11 @@
         <module name="config-server" />
         <module name="discovery-server" />
         <module name="customer-service" />
+<<<<<<< HEAD
         <module name="Gateway" />
+=======
+        <module name="JwtConvertor" />
+>>>>>>> version1
         <module name="product-service" />
         <module name="SharedDtos" />
         <module name="payment" />
@@ -27,27 +35,45 @@
         </processorPath>
         <module name="Cart" />
       </profile>
+<<<<<<< HEAD
       <profile name="Annotation profile for Notification" enabled="true">
+=======
+      <profile name="Annotation profile for rewards-service" enabled="true">
+>>>>>>> version1
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+<<<<<<< HEAD
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+=======
+>>>>>>> version1
         </processorPath>
         <module name="Notification" />
         <module name="rewards-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+<<<<<<< HEAD
       <module name="com.ecom.shareddtos" target="23" />
       <module name="shared-dto" target="17" />
+=======
+      <module name="Customer" target="17" />
+      <module name="CustomerService" target="17" />
+>>>>>>> version1
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Cart" options="-parameters" />
+<<<<<<< HEAD
       <module name="Gateway" options="-parameters" />
+=======
+      <module name="Customer" options="-parameters" />
+      <module name="CustomerService" options="-parameters" />
+      <module name="JwtConvertor" options="-parameters" />
+>>>>>>> version1
       <module name="Notification" options="-parameters" />
       <module name="Order" options="-parameters" />
       <module name="config-server" options="-parameters" />
@@ -56,7 +82,10 @@
       <module name="payment" options="-parameters" />
       <module name="product-service" options="-parameters" />
       <module name="rewards-service" options="-parameters" />
+<<<<<<< HEAD
       <module name="shared-dto" options="-parameters" />
+=======
+>>>>>>> version1
     </option>
   </component>
 </project>

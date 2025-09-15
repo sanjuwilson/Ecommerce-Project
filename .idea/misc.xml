@@ -4,6 +4,7 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/Order/Order/pom.xml" />
         <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/config-server/config-server/pom.xml" />
         <option value="$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/product-service/product-service/pom.xml" />
@@ -26,6 +27,26 @@
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="openjdk-23" project-jdk-type="JavaSDK">
+=======
+        <option value="$PROJECT_DIR$/services/config-server/config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/services/discovery-server/discovery-server/pom.xml" />
+        <option value="$PROJECT_DIR$/services/Customer/Customer/pom.xml" />
+        <option value="$PROJECT_DIR$/services/CustomerService/CustomerService/pom.xml" />
+        <option value="$PROJECT_DIR$/services/customerservice/customerservice/pom.xml" />
+        <option value="$PROJECT_DIR$/services/customer-service/customer-service/pom.xml" />
+        <option value="$PROJECT_DIR$/services/product-service/product-service/pom.xml" />
+        <option value="$PROJECT_DIR$/services/Order/Order/pom.xml" />
+        <option value="$PROJECT_DIR$/services/Cart/pom.xml" />
+        <option value="$PROJECT_DIR$/services/JwtConvertor/pom.xml" />
+        <option value="$PROJECT_DIR$/services/SharedDtos/pom.xml" />
+        <option value="$PROJECT_DIR$/services/Notification/pom.xml" />
+        <option value="$PROJECT_DIR$/services/rewards-service/pom.xml" />
+        <option value="$PROJECT_DIR$/services/payment/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK">
+>>>>>>> version1
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

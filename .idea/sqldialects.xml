@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+<<<<<<< HEAD
     <file url="file://$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/product-service/product-service/src/main/resources/db/migration/V1__init_database.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/IdeaProjects/E-ComerceApp/services/product-service/product-service/src/main/resources/db/migration/V2_insert_data.sql" dialect="PostgreSQL" />
     <file url="PROJECT" dialect="PostgreSQL" />
+=======
+    <file url="file://$PROJECT_DIR$/services/product-service/product-service/src/main/resources/db/migration/V1__init_database.sql" dialect="GenericSQL" />
+>>>>>>> version1
   </component>
 </project>

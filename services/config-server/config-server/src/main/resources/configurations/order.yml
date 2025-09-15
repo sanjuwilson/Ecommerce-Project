@@ -1,0 +1,41 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/MyEcom
+  kafka:
+    consumer:
+      group-id: orderGroup
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5678/order
+    username: postgres
+    password: pass
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+server:
+  port: 9090
+jwt:
+  auth:
+    convertor:
+      resource-id: service_order
+      principle-attribute: preferred_username
+application:
+  config:
+    customer-url: http://localhost:8090/api/v1/customer
+    product-url: http://localhost:9999/api/v1/product
+    payment-url: http://localhost:9767/api/v1/payments
+keycloak:
+  realm: MyEcom
+  admin-client-id: service_order
+  admin-client-secret: SzXBMtoXCf0QME7E3NWvQsOBfx6qynZQ
+
