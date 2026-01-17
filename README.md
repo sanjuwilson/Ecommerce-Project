@@ -132,7 +132,8 @@ Users may manage a cart using the Cart service:
 ## API Testing
 A Postman collection is included to demonstrate and test the core API flows.
 
-Location:
+Location: postman/globals
+
 The collection covers:
 - User registration and activation
 - Authentication (JWT-based)
