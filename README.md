@@ -127,3 +127,17 @@ Users may manage a cart using the Cart service:
 1. Start infrastructure:
    ```bash
    docker-compose up
+
+
+## API Testing
+A Postman collection is included to demonstrate and test the core API flows.
+
+Location:
+The collection covers:
+- User registration and activation
+- Authentication (JWT-based)
+- Cart operations
+- Order placement
+- Transactions and rewards
+- Admin and super-admin workflows
+
